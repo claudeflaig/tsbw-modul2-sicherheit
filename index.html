@@ -215,33 +215,36 @@
   section.chapter {
     background: var(--card-bg);
     border-radius: 20px;
-    padding: 28px 36px;
-    margin-bottom: 20px;
+    padding: 40px 44px 32px;
+    margin-bottom: 32px;
     box-shadow: var(--shadow-card);
     position: relative;
+    border-top: 8px solid var(--burgundy);
   }
   section.chapter h2 {
-    font-size: 50px;
+    font-size: 60px;
     color: var(--burgundy);
-    margin-bottom: 6px;
-    font-weight: 700;
+    margin-bottom: 10px;
+    font-weight: 800;
     line-height: 1.05;
+    padding-bottom: 12px;
+    border-bottom: 3px solid var(--rose-mid);
   }
   section.chapter .chapnum {
     display: inline-block;
     background: var(--burgundy);
     color: var(--card-bg);
-    padding: 4px 14px;
+    padding: 6px 18px;
     border-radius: 999px;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-bottom: 14px;
   }
   section.chapter .lead {
-    font-size: 24px;
+    font-size: 25px;
     color: var(--muted);
-    margin-bottom: 18px;
+    margin: 18px 0;
     max-width: 980px;
     line-height: 1.45;
   }
@@ -511,14 +514,15 @@
   /* iPad Pro / Landscape */
   @media (max-width: 1366px) {
     body { padding-left: 18px; padding-right: 18px; }
-    section.chapter { padding: 26px 32px; }
+    section.chapter, .v-section { padding: 32px 36px 26px; }
   }
 
   /* iPad Portrait / Tablet */
   @media (max-width: 1024px) {
     html { font-size: 24px; }
     body { padding-left: 14px; padding-right: 14px; padding-top: 14px; }
-    section.chapter { padding: 22px 26px; border-radius: 18px; margin-bottom: 16px; }
+    section.chapter, .v-section { padding: 26px 28px 22px; border-radius: 18px; margin-bottom: 22px; }
+    section.chapter h2 { font-size: 48px; }
     header.hero { padding: 26px 30px; margin-bottom: 18px; }
     header.hero h1 { font-size: 42px; }
     nav.toc { gap: 10px; margin-bottom: 18px; }
@@ -531,10 +535,10 @@
     html { font-size: 22px; }
     nav.toc { grid-template-columns: 1fr 1fr; }
     .grid-2, .grid-3, .char-grid { grid-template-columns: 1fr; }
-    section.chapter { padding: 18px 18px; }
+    section.chapter, .v-section { padding: 22px 20px 18px; }
     header.hero { padding: 22px 22px; }
     header.hero h1 { font-size: 34px; }
-    section.chapter h2 { font-size: 30px; }
+    section.chapter h2 { font-size: 38px; }
   }
 
   /* Phone */
@@ -542,16 +546,16 @@
     html { font-size: 20px; }
     nav.toc { grid-template-columns: 1fr; }
     .stat-grid { grid-template-columns: 1fr 1fr; }
-    section.chapter { padding: 16px 14px; }
+    section.chapter, .v-section { padding: 18px 16px; }
     header.hero { padding: 20px 18px; }
     header.hero h1 { font-size: 28px; }
-    section.chapter h2 { font-size: 26px; }
+    section.chapter h2 { font-size: 32px; }
     .theme-toggle { padding: 8px 14px; font-size: 14px; top: 12px; right: 12px; }
   }
 
   /* ============ VISUAL+ STYLES ============ */
-  .v-section { padding: 28px 36px; }
-  .v-section .chapnum { background: linear-gradient(135deg, var(--burgundy), var(--burgundy-light)); }
+  .v-section { padding: 40px 44px 32px; border-top-color: var(--gold); }
+  .v-section .chapnum { background: linear-gradient(135deg, var(--gold), var(--burgundy)); }
   .v-badge {
     display: inline-block;
     background: linear-gradient(135deg, var(--gold), var(--burgundy));
