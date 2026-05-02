@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>TSBW Modul 2 – Sicherheit | Lehrvorlage</title>
+<style>
+  :root {
+    --burgundy: #7a2438;
+    --burgundy-light: #a13c52;
+    --cream: #f5efe6;
+    --sand: #efe5d4;
+    --rose: #f9e3e8;
+    --rose-mid: #f0c6cf;
+    --sage: #c8d4ba;
+    --sage-dark: #6e8260;
+    --gold: #b8956a;
+    --ink: #2b2420;
+    --muted: #6b5d54;
+    --highlight: #fef3c7;
+    --note: #d6f0ff;
+    --hand: #1f4d8a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "SF Pro Display", "Inter", "Helvetica Neue", sans-serif;
+    background: linear-gradient(180deg, #faf6ef 0%, #f3ebdd 100%);
+    color: var(--ink);
+    line-height: 1.55;
+    padding: 40px 20px 80px;
+  }
+  .container { max-width: 1200px; margin: 0 auto; }
+
+  /* HEADER */
+  header.hero {
+    background: var(--burgundy);
+    color: var(--cream);
+    border-radius: 24px;
+    padding: 48px 56px;
+    margin-bottom: 48px;
+    box-shadow: 0 20px 60px rgba(122,36,56,0.25);
+    position: relative;
+    overflow: hidden;
+  }
+  header.hero::before {
+    content: "";
+    position: absolute; right: -60px; top: -60px;
+    width: 280px; height: 280px;
+    background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  header.hero h1 {
+    font-size: 48px; font-weight: 300;
+    letter-spacing: 2px; line-height: 1.1;
+    margin-bottom: 8px;
+  }
+  header.hero h1 strong { font-weight: 700; }
+  header.hero .subtitle {
+    font-size: 16px; opacity: 0.85; letter-spacing: 1.5px;
+    text-transform: uppercase; margin-bottom: 24px;
+  }
+  header.hero .topics {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    margin-top: 20px;
+  }
+  header.hero .topic {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 8px 16px; border-radius: 999px;
+    font-size: 14px; font-weight: 500;
+    backdrop-filter: blur(10px);
+  }
+  header.hero .topic:hover { background: rgba(255,255,255,0.22); }
+
+  /* TOC */
+  nav.toc {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  nav.toc a {
+    background: white;
+    padding: 20px 22px;
+    border-radius: 16px;
+    text-decoration: none;
+    color: var(--ink);
+    border: 1px solid rgba(0,0,0,0.06);
+    box-shadow: 0 4px 16px rgba(122,36,56,0.06);
+    transition: all .2s;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  nav.toc a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(122,36,56,0.12);
+    border-color: var(--burgundy-light);
+  }
+  nav.toc .num {
+    color: var(--burgundy); font-size: 12px;
+    font-weight: 700; letter-spacing: 1px;
+  }
+  nav.toc .ttl { font-size: 17px; font-weight: 600; }
+
+  /* SECTIONS */
+  section.chapter {
+    background: white;
+    border-radius: 24px;
+    padding: 48px 56px;
+    margin-bottom: 40px;
+    box-shadow: 0 8px 32px rgba(122,36,56,0.08);
+    position: relative;
+  }
+  section.chapter h2 {
+    font-size: 36px;
+    color: var(--burgundy);
+    margin-bottom: 8px;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+  section.chapter .chapnum {
+    display: inline-block;
+    background: var(--burgundy);
+    color: white;
+    padding: 4px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+  }
+  section.chapter .lead {
+    font-size: 17px;
+    color: var(--muted);
+    margin-bottom: 32px;
+    max-width: 800px;
+    line-height: 1.6;
+  }
+  h3 {
+    font-size: 22px;
+    color: var(--burgundy);
+    margin: 32px 0 14px;
+    font-weight: 700;
+    border-bottom: 2px solid var(--rose-mid);
+    padding-bottom: 6px;
+  }
+  h4 {
+    font-size: 16px;
+    color: var(--burgundy-light);
+    margin: 20px 0 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  p { margin-bottom: 12px; }
+  ul, ol { padding-left: 22px; margin-bottom: 14px; }
+  ul li, ol li { margin-bottom: 6px; }
+  strong.kw { color: var(--burgundy); }
+  mark {
+    background: var(--highlight);
+    padding: 1px 4px; border-radius: 3px;
+  }
+
+  /* GRID LAYOUTS */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+
+  /* CARDS */
+  .card {
+    background: var(--cream);
+    border-radius: 16px;
+    padding: 22px 26px;
+    border-left: 5px solid var(--burgundy);
+  }
+  .card.rose { background: var(--rose); border-left-color: var(--burgundy-light); }
+  .card.sage { background: #e6ecdc; border-left-color: var(--sage-dark); }
+  .card.sand { background: var(--sand); border-left-color: var(--gold); }
+  .card h4 { margin-top: 0; }
+
+  /* EXERCISE BOX */
+  .exercise {
+    background: linear-gradient(135deg, #fdebef 0%, #f9d8e1 100%);
+    border-radius: 18px;
+    padding: 26px 30px;
+    margin: 22px 0;
+    border: 2px solid var(--rose-mid);
+    position: relative;
+  }
+  .exercise::before {
+    content: "ÜBUNG";
+    position: absolute; top: -12px; left: 24px;
+    background: var(--burgundy);
+    color: white;
+    padding: 4px 14px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+  }
+  .exercise.praxis::before { content: "PRAXIS"; background: var(--sage-dark); }
+  .exercise h4 {
+    color: var(--burgundy);
+    margin-top: 6px;
+    font-size: 18px;
+  }
+  .exercise ol { padding-left: 24px; }
+  .exercise ol li { margin-bottom: 8px; }
+
+  /* HANDWRITTEN NOTE */
+  .note {
+    background: var(--note);
+    border-left: 4px solid var(--hand);
+    padding: 12px 16px;
+    margin: 14px 0;
+    border-radius: 8px;
+    font-style: italic;
+    color: var(--hand);
+    font-weight: 500;
+  }
+  .note::before {
+    content: "✍ ";
+    font-style: normal;
+  }
+
+  /* KEY POINTS */
+  .keypoints {
+    background: linear-gradient(135deg, var(--burgundy) 0%, var(--burgundy-light) 100%);
+    color: var(--cream);
+    border-radius: 16px;
+    padding: 24px 30px;
+    margin: 22px 0;
+  }
+  .keypoints h4 { color: white; }
+  .keypoints ul { list-style: none; padding-left: 0; }
+  .keypoints ul li {
+    padding-left: 22px; position: relative;
+    margin-bottom: 8px;
+  }
+  .keypoints ul li::before {
+    content: "◆";
+    position: absolute; left: 0;
+    color: var(--rose-mid);
+  }
+
+  /* TABLE */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  th {
+    background: var(--burgundy);
+    color: white;
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+  td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--cream);
+    font-size: 15px;
+  }
+  tr:last-child td { border-bottom: none; }
+
+  /* BREATHING VISUAL */
+  .breath-rhythm {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+  }
+  .breath-step {
+    width: 64px; height: 78px;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    color: white;
+    font-weight: 700;
+    border-radius: 8px;
+    position: relative;
+  }
+  .breath-step.in {
+    background: linear-gradient(180deg, #c64155 0%, #7a2438 100%);
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+    padding-top: 20px;
+  }
+  .breath-step.out {
+    background: linear-gradient(0deg, #6e8260 0%, #97a784 100%);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    padding-bottom: 20px;
+  }
+  .breath-step .lbl { font-size: 9px; letter-spacing: 1px; }
+  .breath-step .num { font-size: 28px; }
+
+  /* STATS */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin: 22px 0;
+  }
+  .stat {
+    background: var(--sand);
+    padding: 18px 16px;
+    border-radius: 14px;
+    text-align: center;
+  }
+  .stat .val {
+    font-size: 28px;
+    color: var(--burgundy);
+    font-weight: 700;
+  }
+  .stat .lbl {
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+
+  /* CHARACTER STRUCTURES */
+  .char-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin: 18px 0;
+  }
+  .char {
+    background: #e6ecdc;
+    border-radius: 14px;
+    padding: 20px 22px;
+    border-top: 4px solid var(--sage-dark);
+  }
+  .char h5 {
+    color: var(--sage-dark);
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+
+  /* PILL */
+  .pill {
+    display: inline-block;
+    background: var(--burgundy);
+    color: white;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-right: 4px;
+  }
+  .pill.gold { background: var(--gold); }
+  .pill.sage { background: var(--sage-dark); }
+
+  /* QUOTES */
+  blockquote {
+    border-left: 4px solid var(--gold);
+    padding: 8px 18px;
+    margin: 14px 0;
+    color: var(--muted);
+    font-style: italic;
+    background: #faf3e7;
+    border-radius: 0 12px 12px 0;
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 32px 20px;
+    color: var(--muted);
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+
+  @media (max-width: 900px) {
+    nav.toc { grid-template-columns: 1fr 1fr; }
+    .grid-2, .grid-3, .char-grid, .stat-grid { grid-template-columns: 1fr; }
+    section.chapter { padding: 32px 24px; }
+    header.hero { padding: 36px 28px; }
+    header.hero h1 { font-size: 32px; }
+  }
+
+  /* PRINT */
+  @media print {
+    body { background: white; padding: 0; }
+    section.chapter { box-shadow: none; page-break-inside: avoid; }
+    nav.toc { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="subtitle">Modul 2 · Sicherheit · 2./3. Mai 2026</div>
+    <h1>Trauma Sensitive<br><strong>Breathwork</strong></h1>
+    <p style="margin-top:14px;font-size:18px;max-width:680px;opacity:0.9;">
+      Lehrvorlage zum Erzählen — die wichtigsten Inhalte, Übungen und Praxis-Tools für die Punkte 2.2, 2.3, 2.6, 2.7, 2.9 und 2.11.
+    </p>
+    <div class="topics">
+      <span class="topic">Körper nonstop auf der Suche</span>
+      <span class="topic">Nicht nur Food + Wasser → Sicherheit</span>
+      <span class="topic">Sicherheit = aktiver physiologischer Zustand</span>
+      <span class="topic">Schlüssel: Stress · Heilung · Resilienz</span>
+      <span class="topic">Schau, was für dich passt</span>
+    </div>
+  </header>
+
+  <!-- TOC -->
+  <nav class="toc">
+    <a href="#s22"><div class="num">2.2</div><div class="ttl">Co-Regulation vs Selbstregulation</div></a>
+    <a href="#s23"><div class="num">2.3</div><div class="ttl">Sicherheit im Rollenbewusstsein</div></a>
+    <a href="#s26"><div class="num">2.6</div><div class="ttl">Cadence Atmung</div></a>
+    <a href="#s27"><div class="num">2.7</div><div class="ttl">Ego-Funktion Grenzen</div></a>
+    <a href="#s29"><div class="num">2.9</div><div class="ttl">Herzratenvariabilität</div></a>
+    <a href="#s211"><div class="num">2.11</div><div class="ttl">Stress Toleranz</div></a>
+  </nav>
+
+  <!-- 2.2 -->
+  <section class="chapter" id="s22">
+    <span class="chapnum">2.2</span>
+    <h2>Co-Regulation vs Selbstregulation</h2>
+    <p class="lead">Sicherheit entsteht durch Verbindung. Bevor wir uns selbst regulieren können, müssen wir Co-Regulation erfahren haben.</p>
+
+    <h3>Was ist Co-Regulation?</h3>
+    <ul>
+      <li>Ein <strong class="kw">Baby</strong> verfügt noch nicht über die Fähigkeit, seinen Stress eigenständig zu regulieren — es ist auf <strong class="kw">Bezugspersonen</strong> angewiesen.</li>
+      <li>Grundbedürfnisse („Geburtsrechte"): <mark>Nähe, Nahrung, Wärme, Schlaf, Unterstützung bei Ausscheidung</mark>.</li>
+      <li>Werden diese nicht ausreichend erfüllt → das Nervensystem gerät in einen <strong class="kw">Zustand chronischer Unsicherheit</strong> (Dysregulation).</li>
+      <li>Co-Regulation = nachträgliche, korrigierende Erfahrungen durch Menschen, die selbst reguliert sind und Sicherheit verkörpern.</li>
+    </ul>
+
+    <div class="keypoints">
+      <h4>Damit ein alter Stresszyklus integriert werden kann …</h4>
+      <ul>
+        <li>… braucht es das <strong>Erleben von Sicherheit in Verbindung</strong>.</li>
+        <li>Vor allem wenn eine sichere Bezugsperson dabei anwesend ist, kann der Körper ein neues inneres Muster entwickeln.</li>
+      </ul>
+    </div>
+
+    <h4>Wenn Co-Regulation fehlte – zwei spätere Muster:</h4>
+    <div class="grid-2">
+      <div class="card rose">
+        <strong>Stark abhängig von anderen,</strong> um sich sicher zu fühlen.
+      </div>
+      <div class="card sand">
+        <strong>Übermässige Selbstständigkeit</strong> – „ich muss alles alleine schaffen" – oft aus einem Mangel heraus.
+      </div>
+    </div>
+
+    <h3>Was bewirkt Co-Regulation?</h3>
+    <ul>
+      <li>Vermittelt <strong class="kw">Sicherheit über das Nervensystem</strong>.</li>
+      <li>Wechselseitiges Senden und Empfangen von Sicherheits-Signalen.</li>
+      <li>Schafft echte Verbindung zwischen zwei Nervensystemen.</li>
+      <li>Erfüllt ein Grundbedürfnis – <strong>Verbindung ist kein Luxus, sondern überlebenswichtig.</strong></li>
+    </ul>
+
+    <div class="grid-2">
+      <div class="card">
+        <h4>Down-Regulation</h4>
+        Hilft hohe Aktivierung (Angst, Übererregung, Stress) zu beruhigen.
+      </div>
+      <div class="card sage">
+        <h4>Up-Regulation</h4>
+        Aktiviert bei Untererregung (Erschöpfung, Rückzug, Dissoziation) die nötige Energie für Kontakt &amp; Präsenz.
+      </div>
+    </div>
+
+    <h3>Selbstregulation – ein späteres Ergebnis von Co-Regulation</h3>
+    <p>Wer als Kind ausreichend Sicherheit in Verbindung erlebt hat (oder dies später nachnähren konnte), entwickelt die Fähigkeit, sich auch in stressigen Momenten selbst zu regulieren.</p>
+    <blockquote>„Ich kann mir selbst Sicherheit geben <strong>UND</strong> ich darf mir Hilfe holen, wenn ich sie brauche."</blockquote>
+
+    <h3>Co-Regulation im Breathwork</h3>
+    <ul>
+      <li>Als Breathwork-Leitende tragen wir Verantwortung dafür, <strong class="kw">selbst in einem ausreichend regulierten Zustand zu sein</strong>.</li>
+      <li>Richtwert: <span class="pill">mindestens 33 %</span> Sicherheit im eigenen System – das genügt, damit das Nervensystem des Gegenübers Sicherheit „lesen" kann.</li>
+      <li>Sinkt unsere eigene Sicherheit darunter: <strong>wissen, wie wir uns selbst regulieren</strong> – durch Atmung, Erdung, Bewegung oder Co-Regulation mit einer Assistenzperson.</li>
+      <li><strong>Heilung geschieht in sicherer Verbindung</strong> – mit sich selbst und mit anderen.</li>
+    </ul>
+
+    <div class="exercise">
+      <h4>Reflektion (in Gruppe teilen)</h4>
+      <ol>
+        <li>Wer ist in deinem Leben — jetzt als Erwachsene/r — ein <strong>Co-Regulator</strong>, der dich unterstützt, wieder aus hohem Stress rauszukommen?</li>
+        <li>Gibt es Situationen (z.B. Panik/Angst), wo du regelmässig jemand brauchst, damit du wieder rauskommst?</li>
+        <li>Gibt es Alltags-Situationen, wo du <strong>Selbstregulation</strong> ansteuerst? Welche sind das?</li>
+        <li>Welche <strong>Selbstregulations-Übungen</strong> helfen dir zur Zeit?</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 2.3 -->
+  <section class="chapter" id="s23">
+    <span class="chapnum">2.3</span>
+    <h2>Sicherheit im Rollenbewusstsein</h2>
+    <p class="lead">Sicherheit im Gruppenraum beginnt bei dir. Wenn dein Nervensystem reguliert ist, spüren das die Teilnehmenden.</p>
+
+    <h3>Sicherheit als Gruppenleiter:in</h3>
+    <ul>
+      <li>Durch Atmung, Erdung, Körperwahrnehmung und klare Präsenz aktivierst du dein <strong>soziales Nervensystem</strong> und erzeugst Sicherheit im Raum.</li>
+      <li>Als Leiter:in bist du <strong>nicht in deinem Eigenprozess</strong>. Du darfst authentisch sein, aber es geht nicht um dich als Person, sondern um deine Rolle.</li>
+      <li>Richtwert: <span class="pill gold">~ 20 % Individualität</span> – der Rest ist professionelles Rollen-Ich.</li>
+      <li>Die Gruppe braucht zu spüren: du bist <strong>präsent, orientiert und einen Schritt weiter als sie.</strong></li>
+      <li>→ Weniger persönliche Geschichten – mehr verkörperte Präsenz.</li>
+    </ul>
+
+    <h3>Interpretationen &amp; Projektionen während Breathworks</h3>
+    <p>Wir können <strong>nicht wissen</strong>, was im Inneren eines Teilnehmenden wirklich geschieht. Unsere Wahrnehmung ist immer gefärbt von unserer eigenen Geschichte.</p>
+    <div class="card rose">
+      <h4>Deshalb gilt:</h4>
+      <ul>
+        <li><strong>Weniger interpretieren</strong>, mehr in Kontakt treten.</li>
+        <li><strong>Fragen statt Glauben.</strong></li>
+        <li>Körpersprache kann Hinweise geben – aber selten ein vollständiges Bild.</li>
+        <li>Vertraue nicht nur deiner Intuition, sondern kombiniere sie mit <strong>achtsamer Kommunikation</strong>.</li>
+      </ul>
+    </div>
+
+    <h3>Klarheit in den Rollen</h3>
+    <div class="grid-2">
+      <div class="card">
+        <h4>1. Als Erfahrende:r</h4>
+        <ul>
+          <li><strong>Ehrliche Feedbacks</strong> aufgrund deiner eigenen Geschichte</li>
+          <li>Eigenwahrnehmungen der eigenen Gefühle, Emotionen, Bedürfnisse, Beobachtungen</li>
+          <li>Du sprichst nur von dir selbst: „Ich erfahre / fühle / beobachte …"</li>
+        </ul>
+      </div>
+      <div class="card sand">
+        <h4>2. Als Leiter:in</h4>
+        <ul>
+          <li>Verantwortlich für deine eigene <strong>Körperpräsenz</strong> (Zentrierung, Mitte, Grenzen, Soziales NS)</li>
+          <li>Sicherheit in dir selbst von <strong>mind. 33 %</strong> (= Co-Regulation)</li>
+          <li>Du fragst um das Feedback vom Klient, um deine Wahrnehmung zu schulen</li>
+          <li>Wenn deine Sicherheit unter 33 % fällt → bitte um Support beim Beobachter / TSBW Team, nachdem du den Klient informiert hast</li>
+          <li>Als Begleiter: <strong>keine Eigenprozesse</strong> starten oder den Prozess umzudrehen</li>
+        </ul>
+      </div>
+      <div class="card sage">
+        <h4>3. Als Beobachter:in</h4>
+        <ul>
+          <li>Aufgabe: das Feld <strong>beobachten ohne zu handeln</strong> oder dich einzumischen</li>
+          <li>Kein Eingreifen, wenn nicht darum gebeten wird</li>
+          <li>Orientierung geben, wenn danach gefragt wird, vom Leiter (TH3/5, Latissimus, Kognition)</li>
+        </ul>
+      </div>
+      <div class="card rose">
+        <h4>4. Bei Überwältigung Verantwortung übernehmen <span class="pill" style="font-size:10px;">EIGENVERANTWORTUNG</span></h4>
+        <ul>
+          <li><strong>„Time Out"</strong> ist jederzeit willkommen: kurze Pause, Kontakt finden, Dosis/Länge verhandeln</li>
+          <li><strong>„Stop"</strong> wenn dein Limit erreicht ist – Erfahrung kommt frühzeitig zum Ende</li>
+          <li>Falls Touch vom Begleiter vorhanden – sanft und mit Absprache lösen</li>
+          <li>Situation ist in den anderen Rollen <strong>nie persönlich zu nehmen</strong></li>
+          <li>Aktiviere deine Egofunktionen, bleibe präsent, gib dem Gegenüber Zeit und Raum</li>
+          <li>Keine Konversation untereinander, Respekt und Raum für den Mensch mit Limit/Time-Out</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Rolle einnehmen — Rhomboiden aktivieren</h3>
+    <p>Du wirst Teilnehmer haben, die dich unbewusst in eine Rolle versetzen: Freund:in, Spirituelle:r Lehrer:in, Therapeut:in, Mama/Papa, romantische Beziehung, Autorität / Boss, etc.</p>
+    <div class="exercise">
+      <h4>Rhomboiden aktivieren — in deiner Rolle bleiben</h4>
+      <ol>
+        <li>Bringe deine <strong>Schulterblätter leicht medial</strong> (zur Mitte) zusammen und ziehe sie wenig nach unten (caudal).</li>
+        <li>Wenn sie schon sehr steif sind, probiere deine Arme vor der Brust zu überkreuzen, die <strong>Rhomboiden zu dehnen</strong>.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 2.6 -->
+  <section class="chapter" id="s26">
+    <span class="chapnum">2.6</span>
+    <h2>Cadence Atmung <span style="font-size:18px;color:var(--muted);font-weight:400;">— Slow Breathing nach Buteyko</span></h2>
+    <p class="lead">Frequenz / Rhythmus. Atmung in einem gleichmässigen Rhythmus zur Regulation des Nervensystems und besseren Sauerstoffaufnahme.</p>
+
+    <div class="stat-grid">
+      <div class="stat"><div class="val">12-16</div><div class="lbl">normal/min</div></div>
+      <div class="stat"><div class="val">4-6</div><div class="lbl">verlangsamt/min</div></div>
+      <div class="stat"><div class="val">4.2 L</div><div class="lbl">→ Alveolen normal</div></div>
+      <div class="stat"><div class="val">5.1 L</div><div class="lbl">→ Alveolen langsam (+20 %)</div></div>
+    </div>
+
+    <h3>Wie wirkt Cadence-Atmung?</h3>
+    <ul>
+      <li><strong class="kw">Stimuliert den Vagus-Nerv</strong></li>
+      <li>Wir verlangsamen die ‚normale' Atmung von ca. 12 Atemzügen pro Minute auf 4.6 – 6 Atemzüge</li>
+      <li>Bei normaler Atmung (12 ZA/min): 6 L Luft eingeatmet, davon 4.2 L zu den Alveolen</li>
+      <li>Bei verlangsamter Atmung (6 ZA/min): 6 L Luft eingeatmet, aber 5.1 L zu den Alveolen → <strong>20 % mehr</strong></li>
+      <li>→ Mehr Gasaustausch, Organe &amp; Muskeln werden effizienter versorgt = mehr Leistungsfähigkeit</li>
+    </ul>
+
+    <h3>Kohärenz-Atmung <span style="font-size:14px;color:var(--muted);">— Zusammenhang / Stimmigkeit</span></h3>
+    <p>Auch HRV-Atmung oder Herz-Kohärenz-Training. Ziel: <strong class="kw">Herzschlag in einen rhythmischen, gleichmässigen Zustand</strong> bringen → körperliche und geistige Gesundheit fördern.</p>
+    <p>Normalerweise atmen wir 12–16 mal pro Minute. Hier <strong>halbieren</strong> wir auf <strong>6 Atemzüge pro Minute</strong> (5 ein / 5 aus) → Balance.</p>
+
+    <div class="breath-rhythm">
+      <div class="breath-step in"><div class="lbl">EIN</div><div class="num">5</div></div>
+      <div class="breath-step out"><div class="lbl">AUS</div><div class="num">5</div></div>
+      <div class="breath-step in"><div class="lbl">EIN</div><div class="num">5</div></div>
+      <div class="breath-step out"><div class="lbl">AUS</div><div class="num">5</div></div>
+      <div class="breath-step in"><div class="lbl">EIN</div><div class="num">5</div></div>
+      <div class="breath-step out"><div class="lbl">AUS</div><div class="num">5</div></div>
+      <div class="breath-step in"><div class="lbl">EIN</div><div class="num">5</div></div>
+      <div class="breath-step out"><div class="lbl">AUS</div><div class="num">5</div></div>
+    </div>
+
+    <div class="exercise">
+      <h4>Atemübung Kohärenz</h4>
+      <ol>
+        <li><strong>Atme ein auf 5 Sekunden, aus auf 5 Sekunden.</strong></li>
+        <li>Wenn dein <strong>Bolt Score</strong> tiefer als 15 Sekunden ist, könnte 5/5 herausfordernd sein → dann eher <strong>10 mal pro Minute mit 3 ein / 3 aus</strong>.</li>
+        <li>Es soll ein <strong>leichter Lufthunger</strong> entstehen — so stellst du sicher, dass du nicht ‚Überatmest'.</li>
+        <li>Versuche, leicht und langsam zu atmen, den Rhythmus zu verlangsamen → ‚Überatmen' reduzieren, <strong>CO₂-Spiegel erhöhen</strong>.</li>
+        <li>Ziel: <strong>mechanisch tief atmen</strong> — Zwerchfell bestmöglich miteinschliessen → die unteren Rippen nach aussen bewegen lassen.</li>
+      </ol>
+    </div>
+
+    <h3>Cadence-Variante: 4–6 verlängerte Ausatmung</h3>
+    <p>Atmen 4 ein / 6 aus → 6× pro Minute. Verlängerte Ausatmung verstärkt den parasympathischen Effekt.</p>
+    <div class="breath-rhythm">
+      <div class="breath-step in"><div class="lbl">EIN</div><div class="num">4</div></div>
+      <div class="breath-step out" style="height:96px;"><div class="lbl">AUS</div><div class="num">6</div></div>
+      <div class="breath-step in"><div class="lbl">EIN</div><div class="num">4</div></div>
+      <div class="breath-step out" style="height:96px;"><div class="lbl">AUS</div><div class="num">6</div></div>
+      <div class="breath-step in"><div class="lbl">EIN</div><div class="num">4</div></div>
+      <div class="breath-step out" style="height:96px;"><div class="lbl">AUS</div><div class="num">6</div></div>
+    </div>
+
+    <div class="keypoints">
+      <h4>Effekte</h4>
+      <ul>
+        <li><strong>Balance</strong> zwischen Parasympathikus und Sympathikus</li>
+        <li>Psychologisch: Balance zwischen Geist und Körper</li>
+        <li>Synchronisiert <strong>Herzrhythmus mit Atmung</strong> → optimaler Gas-Austausch</li>
+        <li>Mehr Sauerstoff in den Blutkreislauf, erhöht Blutfluss zurück zum Herz</li>
+        <li>Erhöht Füllen der rechten Herzkammer und gepumpte Blutmenge / Min</li>
+        <li><strong>Reguliert den Blutdruck</strong> &amp; <strong>erhöht die Herzraten-Variabilität</strong></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 2.7 -->
+  <section class="chapter" id="s27">
+    <span class="chapnum">2.7</span>
+    <h2>Ego-Funktion „Grenze" <span style="font-size:16px;color:var(--muted);font-weight:400;">— nach Body Encyclopedia (Marcher &amp; Fich) / Bodynamic</span></h2>
+    <p class="lead">Grenzen unterscheiden und schützen dich von deiner Umwelt — insbesondere im Kontakt. Sie regeln Nähe und Distanz und sind entscheidend für gesunde zwischenmenschliche Beziehungen.</p>
+
+    <h3>Drei Arten von Grenzen <span style="font-size:14px;color:var(--muted);">(nach Lisbeth Marcher)</span></h3>
+    <div class="grid-3">
+      <div class="card">
+        <h4>Körpergrenzen</h4>
+        Bilden sich bereits im Mutterleib, werden besser angeschlossen <strong>nach der Geburt</strong> bis ca. <strong>1,5 Jahre</strong>. Definieren wo „ich" körperlich beginne und „du" aufhörst.
+      </div>
+      <div class="card sand">
+        <h4>Energetische Grenzen</h4>
+        Entfalten sich ab der <strong>Geburt bis ca. 3. Lebensjahr</strong>. Spürbarer Raum um uns herum (~ Armlänge). Bestimmen, wie nahe jemand kommen darf — kann <strong>ausdehnen und einziehen</strong>.
+      </div>
+      <div class="card sage">
+        <h4>Territoriale Grenzen</h4>
+        Entwickeln sich ab ca. dem <strong>4. Lebensjahr</strong>. „Mir gehört": mein Platz, mein Zimmer, meine Dinge. Aussagen wie „Das ist meins".
+      </div>
+    </div>
+
+    <h3>Selbstverantwortung &amp; Grenzverletzungen</h3>
+    <p>Grenzen zu wahren liegt in <strong class="kw">deiner Verantwortung</strong>. Wenn Grenzen nicht gelernt oder respektiert wurden, erleben wir häufig Grenzverletzungen: jemand kommt körperlich zu nahe, berührt ungefragt, greift nach persönlichen Gegenständen, betritt Räume ohne Einladung.</p>
+    <p>Was innerlich passiert (Stress, Erstarren, Widerstand, Wut, Wegdrücken) ist Teil deines <strong>Energiemanagements</strong>, nicht der Grenze selbst.</p>
+
+    <div class="card rose">
+      <h4>Wenn Grenzen nicht gehalten werden — automatische Strategien</h4>
+      <ul>
+        <li>Verurteilung des Gegenübers</li>
+        <li>Misstrauen oder Kontrolle</li>
+        <li>Rückzug oder Schweigen</li>
+        <li>Starkes „Recht-haben"-Wollen</li>
+        <li>Konkurrenzverhalten</li>
+        <li>Ablenkung (ausblenden, überspielen, Thema wechseln)</li>
+      </ul>
+      <p style="margin-top:8px;font-size:13px;color:var(--muted);">→ Schützen kurzfristig, lösen Thema nicht, verhindern echten Kontakt.</p>
+    </div>
+
+    <h3>Als Facilitator — deine Grenzen halten</h3>
+    <h4>Physische Grenzen</h4>
+    <ol>
+      <li><strong>Haut</strong> ausstreichen / abklopfen <em>vor</em> der Session</li>
+      <li>Eigenen <strong>Bauchnabel halten</strong></li>
+      <li><strong>Duschen</strong> (Wasser auf Haut) <em>nach</em> der Session</li>
+    </ol>
+
+    <h3 style="color:var(--sage-dark);">Energetische Grenzen — Übungen</h3>
+
+    <div class="exercise">
+      <h4>Übung „THIS IS MY SPACE" <span style="font-size:12px;color:var(--muted);">(im Kreis)</span></h4>
+      <p>Sitzend oder stehend:</p>
+      <ol>
+        <li>Arme nach vorne ausstrecken und sage <strong>„THIS IS"</strong></li>
+        <li>Arme bzw. Ellbogen auf die Seite bringen und sage <strong>„MY"</strong></li>
+        <li>Ellbogen nach hinten rollen, als würdest du Rucksack ausziehen, und sage: <strong>„SPACE"</strong></li>
+      </ol>
+    </div>
+
+    <div class="exercise">
+      <h4>Übung „KREIS" <span style="font-size:12px;color:var(--muted);">(im Raum verteilen)</span></h4>
+      <p>Sitzend oder stehend:</p>
+      <ol>
+        <li>Leg dir mit einer <strong>Schnur</strong> deinen energetischen Raum aus</li>
+        <li>Setz dich in deinen Raum und streich ihn mit deinen Armen (<strong>Deltoiden</strong>) aus</li>
+        <li><strong>Schiebe</strong> alles, was nicht zu dir gehört, raus — oder behalte alles, was zu dir gehört, drin</li>
+      </ol>
+    </div>
+
+    <div class="exercise">
+      <h4>Übung „KICKEN" <span style="font-size:12px;color:var(--muted);">(stehend)</span></h4>
+      <ol>
+        <li>Steh in deinem Kreis sicher auf beiden Füssen</li>
+        <li>Leg dir deinen Raum mit der Schnur aus</li>
+        <li>Starte mit deinem <strong>Oberschenkel</strong>, gebeugten Knie — Kräfte, Emotionen, Energien aus deinem Raum zu kicken</li>
+      </ol>
+    </div>
+
+    <div class="exercise praxis">
+      <h4>Praxis zu zweit: Persönlicher Raum <span style="font-size:12px;color:var(--muted);">(evtl. Bauchnabel halten)</span></h4>
+      <ol>
+        <li><strong>Schnur auslegen</strong>, jeder steht in seinem Kreis, im Kontakt bleiben mit dir + deinem Gegenüber.</li>
+        <li>Haltet mit euren <strong>Armen vor dem Brustraum</strong> den energetischen Raum, steht voreinander und nehmt den eigenen + gegenüberliegenden Raum wahr.</li>
+        <li>Beide halten energetischen Raum mit Armen vor der Brust, in Kontakt. Beide <strong>verkleinern</strong> jetzt ihren energetischen Raum, nehmen Arme näher an Körper, rücken auch <strong>physisch näher</strong> mit eingezogenem „Raum".</li>
+        <li>Beide Personen <strong>strecken Arme</strong> gerade vor Brust aus (bisschen gebeugte Ellbogen): halten sich auf Distanz, sind trotzdem im Kontakt.</li>
+        <li>Steht wieder zurück in deine Schnur. Variante:
+          <ul>
+            <li>Schnüre überlappen</li>
+            <li>1 grosses ganzes Feld machen mit beiden Schnüren</li>
+            <li>Zurück zum Normal: jeder steht in seinem Kreis</li>
+          </ul>
+        </li>
+      </ol>
+      <div class="note">Wenn Grenzen schon stark / „eh stark am Halten" → zuerst zu zweit in Widerstand, z.B. mit Stoff arbeiten.</div>
+    </div>
+
+    <div class="exercise praxis">
+      <h4>Breathwork Praxis 1:1 — Grenzen während Sessions <span style="font-size:12px;color:var(--muted);">(eher 1:1, braucht Kontext)</span></h4>
+      <ol>
+        <li>Klient legt sich hin, beginnt mit verbundenem, tiefen Atmen durch die Nase. <em>Bitte keine grossen Prozesse einleiten!</em></li>
+        <li>Leiter:in begleitet Klient:in mit folgenden Tools:
+          <ol type="a">
+            <li>Haut + Bauchnabel</li>
+            <li>Quadrizeps (Oberschenkel)</li>
+            <li>Deltoiden (Oberarme)</li>
+          </ol>
+        </li>
+        <li>Leiter:in gleicht ab, wenn er/sie eine Veränderung von Emotionen/Energie/Körperempfindungen in sich beobachtet. Fragt nach und unterstützt Klient:in.</li>
+        <li>Klient meldet jederzeit zurück, was passiert und ob Time-Out / Limit erreicht wurde.</li>
+        <li>Austausch am Schluss: <strong>erst Leiter, dann Erfahrender</strong>.</li>
+      </ol>
+    </div>
+
+    <h3>Physische Grenz-Muskeln <span style="font-size:14px;color:var(--muted);">— zum Unterstützen / Begleiten</span></h3>
+    <div class="grid-2">
+      <div class="card">
+        <h4>Haut</h4>
+        <ul>
+          <li>Haut ausstreichen, fein abklopfen, Klient:in darf wahrnehmen</li>
+          <li>Im Breathwork zum Nachhelfen: <strong>Gewicht auf Haut</strong> (schwere Decke / Gewichtskissen)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Bauchnabel</h4>
+        <ul>
+          <li>Kissen (Gewicht) oder <strong>Teilnehmers Hand</strong> auf Bauchnabel</li>
+          <li>Eventuell deine Hand als Leiter:in</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Energetische Grenz-Muskeln</h3>
+    <div class="grid-2">
+      <div class="card sand">
+        <h4>Quadriceps Femoris</h4>
+        <ul>
+          <li>Muskel-Paket: Rectus, Vastus Lateralis/Medialis/Intermedius</li>
+          <li>Schweres Kissen auf Oberschenkel legen, oder Druck</li>
+          <li><strong>Übung:</strong> Klient stellt sich vor, alles was ihm zu nahe geht, kann er mit dem Oberschenkel <strong>wegkicken</strong> — <em>achtsam!</em></li>
+        </ul>
+      </div>
+      <div class="card sand">
+        <h4>Deltoid</h4>
+        <ul>
+          <li>Aussenseite der Schultern berühren, oder Deltoiden mit Druck/Widerstand halten</li>
+          <li>Oder Kissen an die Schultern / Oberarme legen</li>
+          <li><strong>Übung:</strong> Klient darf dich <strong>wegdrücken</strong> mit den Armen — du bleibst im Kontakt und ermutigst ihn, dich wegzustossen</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2.9 -->
+  <section class="chapter" id="s29">
+    <span class="chapnum">2.9</span>
+    <h2>Herzratenvariabilität (HRV)</h2>
+    <p class="lead">Messbar: <strong>Resilienz des Körpers, von Stress zu regenerieren</strong>. HRV beschreibt die natürlichen, zeitlichen Schwankungen (in Millisekunden) zwischen aufeinanderfolgenden Herzschlägen.</p>
+
+    <ul>
+      <li>Diese Unterschiede entstehen durch das Wechselspiel zwischen <strong>Sympathikus (Aktivierung)</strong> und <strong>Parasympathikus (Beruhigung)</strong>.</li>
+      <li><strong>Hohe HRV</strong> = gesundes, anpassungsfähiges autonomes Nervensystem.</li>
+      <li><strong>Niedrige HRV</strong> = Hinweis auf Stress, Müdigkeit oder gesundheitliche Probleme.</li>
+      <li>Junge Menschen haben höhere HRV als alte Menschen.</li>
+      <li>Durchschnittlicher Oura-Wert: ca. <strong>41 ms</strong> (Frauen ≈ 41,5 ms; Männer ≈ 40,3 ms).</li>
+    </ul>
+
+    <table>
+      <thead>
+        <tr><th>Nervensystem</th><th>Herzschlag Mensch</th><th>HRV (verschiedene Studien)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Dorsaler Vagus</td><td>40–60 BPM</td><td>20 ms und weniger</td></tr>
+        <tr><td><strong>Ventraler Vagus / SNS</strong></td><td>50–100 BPM</td><td><strong>60–80 ms</strong></td></tr>
+        <tr><td>Sympathikus</td><td>90–180+ BPM</td><td>30–40 ms</td></tr>
+      </tbody>
+    </table>
+
+    <div class="note">Tendenz: Herzschläge sinken, je älter man wird. 20–25 J: ca. 55–105 BPM. 35–40 J: ca. 35–75 BPM.</div>
+
+    <h3>Wenn unser Herz „mitschwingt" …</h3>
+    <p>… ist meist der <strong class="kw">ventrale Vagusnerv</strong> aktiv. Er steht für <strong>soziale Verbundenheit, Sicherheit und Regulation</strong>. In diesem Zustand: Verbindung, Präsenz, Zugang zu höheren kognitiven Funktionen (Empathie, Entscheidungsfähigkeit, emotionale Integration → präfrontaler Cortex aktiv).</p>
+    <blockquote>Eine hohe HRV zeigt: du kannst zwischen Stress und Entspannung pendeln.</blockquote>
+
+    <h3>Was bedeutet das für Breathwork und Trauma-Integration?</h3>
+    <ul>
+      <li>Entscheidend: der Körper lernt, <strong>zwischen Aktivierung und Regulation zu pendeln</strong>.</li>
+      <li>Wenn wir Stress erleben (z. B. durch intensive Atemprozesse), kann die Herzfrequenz stark steigen.</li>
+      <li>Ziel: <strong>danach</strong> wieder in einen regulierten Zustand zurückkehren.</li>
+      <li>So kann sich das System neu organisieren → <strong>Integration von Trauma wird möglich</strong>.</li>
+      <li>Lernen wir die Wellen der Aktivierung bewusst zu beobachten, das soziale Nervensystem zu aktivieren und in die Ruhe zurückzukehren → neue Erfahrungen verankern sich (präfrontaler Cortex).</li>
+    </ul>
+    <div class="keypoints">
+      <strong>Nicht der Zustand an sich zählt — sondern die Fähigkeit zur Rückkehr.</strong> Das ist die Grundlage für Selbstregulation, Verbindung und Heilung.
+    </div>
+
+    <h3>HRV spüren über die Übung „Rennen und Kapalabhati"</h3>
+    <p>Sogenannte „Schädel-Reinigung". Atemtechnik sehr nahe an der Herzfrequenz. Bringt das Herz auf die gleiche Frequenz → beeinflusst Hirnstamm + soziales Nervensystem → Sicherheit kann empfunden werden, Beobachter-Ich bleibt eingeschaltet.</p>
+
+    <div class="exercise">
+      <h4>Übung „Taschentuch" / Kapalabhati</h4>
+      <ol>
+        <li><strong>Im Sitzen</strong> nach normalem Ein- und Ausatmen durch die Nase: ein <strong>Atemstoss vom Zwerchfell</strong> her — oberer Bauch stösst die Luft aus, Bewegung nach innen.</li>
+        <li>Steh auf und <strong>renne erst auf der Stelle</strong>, wo du stehst, für 30 Sekunden — aktiviere deinen Puls.</li>
+        <li>Fahr runter, nimm deinen <strong>Puls wahr</strong>.</li>
+        <li>Atme normal ein, atme aus, bis das normale Atemvolumen draussen ist.</li>
+        <li>Mache nach dem Ausatmen einen <strong>zusätzlichen aktiven Aus-Atemstoss</strong> durch die Nase vom oberen Bauch.</li>
+        <li>Die Einatmung folgt automatisch wieder.</li>
+        <li>Wiederhole diesen Stoss, bis der Puls wieder normal ist.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 2.11 -->
+  <section class="chapter" id="s211">
+    <span class="chapnum">2.11</span>
+    <h2>Stress Toleranz / Affekttoleranz</h2>
+    <p class="lead">Affekte sind spontan auftretende emotionale Reaktionen auf innere oder äussere Reize, die wir im Körper spürbar wahrnehmen können — wie Druck in der Brust, Hitze im Gesicht oder einen Kloss im Hals. Sie lösen häufig <strong>unmittelbar</strong> Bilder, Erinnerungen, Emotionen, Reaktionsmuster oder Glaubenssätze aus.</p>
+
+    <h3>Woher kommen die Reize?</h3>
+    <div class="grid-3">
+      <div class="card"><h4>Von aussen</h4>Geräusche, Worte, Gerüche, soziale Situationen, Natur</div>
+      <div class="card sand"><h4>Aus dem Körper</h4>Muskelspannung, Hormone, Herzschlag, Atmung — <strong>ca. 80 % der Reize!</strong></div>
+      <div class="card sage"><h4>Aus dem Gehirn</h4>Gedanken, innere Bilder, Vorstellungen, Überzeugungen</div>
+    </div>
+
+    <h3>Was bedeutet Affekttoleranz?</h3>
+    <p>Die <strong class="kw">Fähigkeit, intensives inneres Erleben</strong> (körperlich, emotional, gedanklich) <strong>zuzulassen, zu regulieren und zu halten</strong>, ohne davon überflutet zu werden oder automatisch in Überlebensstrategien (Flucht, Erstarren, Abspalten) zu rutschen.</p>
+    <blockquote>Es bedeutet <strong>nicht</strong> „cool zu bleiben" oder nichts zu fühlen — sondern:</blockquote>
+    <ul>
+      <li>Die <strong>Wahrnehmung zu öffnen</strong>, auch für unangenehme Gefühle</li>
+      <li>Sie <strong>im Körper zu spüren</strong>, ohne sich davon überwältigen zu lassen</li>
+      <li><strong>Bewusst zu reagieren</strong>, statt impulsiv zu handeln</li>
+      <li>Das <strong>aktuelle Erleben von der Vergangenheit unterscheiden</strong> zu können</li>
+    </ul>
+
+    <h3>Wie entwickelt sich Affekttoleranz?</h3>
+    <p>Durch <strong>wiederholte, begleitete Erfahrungen von Regulation und Sicherheit</strong>. Besonders durch aktives soziales Nervensystem (ventraler Vagus) lernen wir zwischen Fühlen und Denken zu unterscheiden.</p>
+    <blockquote>Nicht „Ich bin die Angst!" — sondern „Ich nehme Angst wahr." Das <strong>Beobachter-Ich</strong> ermöglicht Distanz ohne Abspaltung.</blockquote>
+    <p>So können wir Affekte einordnen, ihnen Bedeutung geben, das Nervensystem kann sie integrieren statt als Bedrohung zu behandeln. Innere Erregung sinkt, HRV bleibt stabil, Handlungsfähigkeit erhalten.</p>
+
+    <h3>Affekttoleranz trainieren</h3>
+    <p>Affekttoleranz ist eine <strong>trainierbare Fähigkeit</strong>, vergleichbar mit einem Muskel. Mit der Zeit lernen wir Affekte:</p>
+    <ul>
+      <li><strong>differenzierter zu benennen</strong> (z. B. Wut vs. Frustration)</li>
+      <li><strong>im Körper zu lokalisieren</strong></li>
+      <li><strong>in Regulation zu bringen</strong></li>
+      <li>nicht automatisch zu unterdrücken oder auszuleben — sondern bewusst damit umzugehen</li>
+    </ul>
+    <div class="note">Trainings-Werkzeuge: CO₂, Erfahrung, Wissen, Verkörperung, Ressourcen, etc.</div>
+
+    <h3>Warum Affekte vermieden werden</h3>
+    <p>Viele Menschen haben oft <strong>unbewusst gelernt</strong>, Affekte so lange wie möglich zu vermeiden. Diese Vermeidungsstrategie ist ein <strong>Schutzmechanismus</strong>, oft als Folge traumatischer Erfahrungen — bestimmte Affekte (Angst, Ohnmacht, Wut, Scham) können das Gefühl früheren Kontrollverlusts, Überwältigung oder Ausgeliefertheit reaktivieren <em>(„nie wieder!")</em>.</p>
+    <p style="color:var(--burgundy);"><strong>Langfristig führt das dazu, dass die Fähigkeit, mit Affekten bewusst umzugehen, immer schwieriger wird und unser Toleranzfenster immer enger wird.</strong></p>
+
+    <div class="exercise">
+      <h4>Notiere — Rückblick</h4>
+      <ol>
+        <li>Gibt es <strong>Reize</strong>, die dich im Alltag immer wieder aktivieren?</li>
+        <li>Welche <strong>Situationen</strong> sind dies konkret? Gewisse <strong>Tätigkeiten</strong>?</li>
+        <li>Gewisse <strong>Menschen</strong>? Gewisse <strong>Sinneseinflüsse</strong>?</li>
+        <li>Gewisse <strong>Orte</strong>?</li>
+      </ol>
+    </div>
+  </section>
+
+  <footer>
+    TSBW — Trauma Sensitive Breathwork · Modul 2 · Sicherheit · © 2026 traumasensitive-breathwork.ch
+  </footer>
+
+</div>
+</body>
+</html>
