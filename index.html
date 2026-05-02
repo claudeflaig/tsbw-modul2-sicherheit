@@ -2,8 +2,17 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TSBW Modul 2 – Sicherheit | Lehrvorlage</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TSBW Modul 2 – Sicherheit</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TSBW M2">
+<meta name="theme-color" content="#7a2438" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#15110f" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
 <style>
   :root {
     --burgundy: #7a2438;
@@ -74,9 +83,11 @@
     background: linear-gradient(180deg, var(--bg-grad-1) 0%, var(--bg-grad-2) 100%);
     color: var(--ink);
     line-height: 1.6;
-    padding: 40px 20px 80px;
+    padding: max(28px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(80px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
     transition: background .3s, color .3s;
+    -webkit-text-size-adjust: 100%;
   }
+  .container { max-width: 1320px; margin: 0 auto; }
 
   /* THEME TOGGLE */
   .theme-toggle {
@@ -95,7 +106,6 @@
     transition: all .2s;
   }
   .theme-toggle:hover { transform: translateY(-1px); }
-  .container { max-width: 1200px; margin: 0 auto; }
 
   /* HEADER */
   header.hero {
@@ -453,14 +463,45 @@
     letter-spacing: 1px;
   }
 
-  @media (max-width: 900px) {
+  /* iPad Pro / Landscape */
+  @media (max-width: 1366px) {
+    body { padding-left: 24px; padding-right: 24px; }
+    section.chapter { padding: 44px 44px; }
+  }
+
+  /* iPad Portrait / Tablet */
+  @media (max-width: 1024px) {
+    html { font-size: 19px; }
+    body { padding-left: 18px; padding-right: 18px; padding-top: 24px; }
+    section.chapter { padding: 36px 32px; border-radius: 20px; margin-bottom: 28px; }
+    header.hero { padding: 40px 36px; margin-bottom: 32px; }
+    header.hero h1 { font-size: 44px; }
+    nav.toc { gap: 12px; margin-bottom: 32px; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* iPad Mini / small tablets */
+  @media (max-width: 820px) {
     html { font-size: 18px; }
     nav.toc { grid-template-columns: 1fr 1fr; }
-    .grid-2, .grid-3, .char-grid, .stat-grid { grid-template-columns: 1fr; }
-    section.chapter { padding: 32px 24px; }
-    header.hero { padding: 36px 28px; }
-    header.hero h1 { font-size: 38px; }
-    section.chapter h2 { font-size: 32px; }
+    .grid-2, .grid-3, .char-grid { grid-template-columns: 1fr; }
+    section.chapter { padding: 28px 22px; }
+    header.hero { padding: 32px 26px; }
+    header.hero h1 { font-size: 36px; }
+    section.chapter h2 { font-size: 30px; }
+  }
+
+  /* Phone */
+  @media (max-width: 560px) {
+    html { font-size: 17px; }
+    nav.toc { grid-template-columns: 1fr; }
+    .stat-grid { grid-template-columns: 1fr 1fr; }
+    section.chapter { padding: 24px 18px; }
+    header.hero { padding: 28px 22px; }
+    header.hero h1 { font-size: 30px; }
+    section.chapter h2 { font-size: 26px; }
+    .theme-toggle { padding: 8px 14px; font-size: 13px; top: 12px; right: 12px; }
   }
 
   /* PRINT */
