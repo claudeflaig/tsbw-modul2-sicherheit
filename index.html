@@ -108,6 +108,38 @@
   }
   .theme-toggle:hover { transform: translateY(-1px); }
 
+  /* Mode toggle (Normal/Visual) */
+  .mode-toggle {
+    position: fixed;
+    top: 20px; right: 200px;
+    z-index: 100;
+    background: var(--card-bg);
+    color: var(--ink);
+    border: 1px solid rgba(128,128,128,0.2);
+    border-radius: 999px;
+    padding: 12px 22px;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: var(--shadow-card);
+    transition: all .2s;
+  }
+  .mode-toggle:hover { transform: translateY(-1px); }
+  body[data-mode="visual"] .mode-toggle {
+    background: linear-gradient(135deg, var(--gold), var(--burgundy));
+    color: #fff;
+    border-color: var(--gold);
+  }
+
+  /* Hide variants based on body mode */
+  body[data-mode="normal"] [data-variant="visual"] { display: none !important; }
+  body[data-mode="visual"] [data-variant="normal"] { display: none !important; }
+
+  @media (max-width: 720px) {
+    .mode-toggle { top: 12px; right: auto; left: 12px; padding: 8px 14px; font-size: 14px; }
+    .theme-toggle { top: 12px; right: 12px; }
+  }
+
   /* HEADER */
   header.hero {
     background: var(--hero-bg);
@@ -777,7 +809,8 @@
   }
 </style>
 </head>
-<body>
+<body data-mode="normal">
+<button class="mode-toggle" onclick="toggleMode()" id="modeToggle">📖 Normal</button>
 <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">🌙 Dark</button>
 <div class="container">
 
@@ -802,12 +835,12 @@
     <a href="#s22"><div class="num">2.2</div><div class="ttl">Co-Regulation vs Selbstregulation</div></a>
     <a href="#s23"><div class="num">2.3</div><div class="ttl">Sicherheit im Rollenbewusstsein</div></a>
     <a href="#s26"><div class="num">2.6</div><div class="ttl">Cadence Atmung</div></a>
-    <a href="#s27"><div class="num">2.7</div><div class="ttl">Ego-Funktion Grenzen</div></a>
-    <a href="#s27v" style="border-color: var(--gold);"><div class="num">2.7 ✦ VISUAL</div><div class="ttl">Grenzen — Infografik</div></a>
-    <a href="#s29"><div class="num">2.9</div><div class="ttl">Herzratenvariabilität</div></a>
-    <a href="#s29v" style="border-color: var(--gold);"><div class="num">2.9 ✦ VISUAL</div><div class="ttl">HRV — Infografik</div></a>
-    <a href="#s211"><div class="num">2.11</div><div class="ttl">Stress Toleranz</div></a>
-    <a href="#s211v" style="border-color: var(--gold);"><div class="num">2.11 ✦ VISUAL</div><div class="ttl">Stress Toleranz — Infografik</div></a>
+    <a href="#s27" data-variant="normal"><div class="num">2.7</div><div class="ttl">Ego-Funktion Grenzen</div></a>
+    <a href="#s27v" data-variant="visual" style="border-color: var(--gold);"><div class="num">2.7 ✦ VISUAL</div><div class="ttl">Grenzen — Infografik</div></a>
+    <a href="#s29" data-variant="normal"><div class="num">2.9</div><div class="ttl">Herzratenvariabilität</div></a>
+    <a href="#s29v" data-variant="visual" style="border-color: var(--gold);"><div class="num">2.9 ✦ VISUAL</div><div class="ttl">HRV — Infografik</div></a>
+    <a href="#s211" data-variant="normal"><div class="num">2.11</div><div class="ttl">Stress Toleranz</div></a>
+    <a href="#s211v" data-variant="visual" style="border-color: var(--gold);"><div class="num">2.11 ✦ VISUAL</div><div class="ttl">Stress Toleranz — Infografik</div></a>
   </nav>
 
   <!-- 2.2 -->
@@ -1036,7 +1069,7 @@
   </section>
 
   <!-- 2.7 -->
-  <section class="chapter" id="s27">
+  <section class="chapter" id="s27" data-variant="normal">
     <span class="chapnum">2.7</span>
     <h2>Ego-Funktion „Grenze" <span style="font-size:16px;color:var(--muted);font-weight:400;">— nach Body Encyclopedia (Marcher &amp; Fich) / Bodynamic</span></h2>
     <p class="lead">Grenzen unterscheiden und schützen dich von deiner Umwelt — insbesondere im Kontakt. Sie regeln Nähe und Distanz und sind entscheidend für gesunde zwischenmenschliche Beziehungen.</p>
@@ -1188,7 +1221,7 @@
   </section>
 
   <!-- 2.7 VISUAL+ -->
-  <section class="chapter v-section" id="s27v">
+  <section class="chapter v-section" id="s27v" data-variant="visual">
     <span class="chapnum">2.7</span><span class="v-badge">✦ VISUAL</span>
     <h2>Ego-Funktion „Grenze"</h2>
     <p class="lead"><strong>Grenzen</strong> = alles, was dich <strong>von deiner Umwelt unterscheidet und schützt</strong> — insbesondere im Kontakt mit anderen Menschen. Sie regeln Nähe und Distanz. Sind <strong>entscheidend für gesunde Beziehungen</strong>. Quelle: <em>Body Encyclopedia</em> · Marcher &amp; Fich · <em>Bodynamic</em>.</p>
@@ -1607,7 +1640,7 @@
   </section>
 
   <!-- 2.9 -->
-  <section class="chapter" id="s29">
+  <section class="chapter" id="s29" data-variant="normal">
     <span class="chapnum">2.9</span>
     <h2>Herzratenvariabilität (HRV)</h2>
     <p class="lead">Messbar: <strong>Resilienz des Körpers, von Stress zu regenerieren</strong>. HRV beschreibt die natürlichen, zeitlichen Schwankungen (in Millisekunden) zwischen aufeinanderfolgenden Herzschlägen.</p>
@@ -1667,7 +1700,7 @@
   </section>
 
   <!-- 2.9 VISUAL+ -->
-  <section class="chapter v-section" id="s29v">
+  <section class="chapter v-section" id="s29v" data-variant="visual">
     <span class="chapnum">2.9</span><span class="v-badge">✦ VISUAL</span>
     <h2>Herzratenvariabilität</h2>
     <p class="lead"><strong>Herzratenvariabilität (HRV)</strong> = natürliche, zeitliche Schwankungen (in Millisekunden) zwischen aufeinanderfolgenden Herzschlägen. Entstehen durch das Wechselspiel zwischen <strong>Sympathikus</strong> (Aktivierung) und <strong>Parasympathikus</strong> (Beruhigung) — den zwei Hauptzweigen unseres <strong>autonomen Nervensystems</strong>.</p>
@@ -1913,7 +1946,7 @@
   </section>
 
   <!-- 2.11 -->
-  <section class="chapter" id="s211">
+  <section class="chapter" id="s211" data-variant="normal">
     <span class="chapnum">2.11</span>
     <h2>Stress Toleranz / Affekttoleranz</h2>
     <p class="lead">Affekte sind spontan auftretende emotionale Reaktionen auf innere oder äussere Reize, die wir im Körper spürbar wahrnehmen können — wie Druck in der Brust, Hitze im Gesicht oder einen Kloss im Hals. Sie lösen häufig <strong>unmittelbar</strong> Bilder, Erinnerungen, Emotionen, Reaktionsmuster oder Glaubenssätze aus.</p>
@@ -1966,7 +1999,7 @@
   </section>
 
   <!-- 2.11 VISUAL+ -->
-  <section class="chapter v-section" id="s211v">
+  <section class="chapter v-section" id="s211v" data-variant="visual">
     <span class="chapnum">2.11</span><span class="v-badge">✦ VISUAL</span>
     <h2>Stress Toleranz</h2>
     <p class="lead"><strong>Affekte</strong> = spontan auftretende <strong>emotionale Reaktionen</strong> auf innere oder äussere Reize, die wir im Körper spürbar wahrnehmen können. Sie lösen häufig <strong>unmittelbar</strong> Bilder, Erinnerungen, Emotionen, Reaktionsmuster oder Glaubenssätze aus.</p>
@@ -2222,6 +2255,21 @@
     const saved = localStorage.getItem('tsbw-theme');
     const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
     applyTheme(saved || (prefersDark ? 'dark' : 'light'));
+  })();
+
+  function applyMode(m) {
+    document.body.setAttribute('data-mode', m);
+    document.getElementById('modeToggle').textContent = m === 'visual' ? '✦ Visual' : '📖 Normal';
+  }
+  function toggleMode() {
+    const cur = document.body.getAttribute('data-mode') || 'normal';
+    const next = cur === 'visual' ? 'normal' : 'visual';
+    localStorage.setItem('tsbw-mode', next);
+    applyMode(next);
+  }
+  (function() {
+    const saved = localStorage.getItem('tsbw-mode');
+    applyMode(saved || 'normal');
   })();
 </script>
 </body>
