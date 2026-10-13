@@ -1,0 +1,7 @@
+# Worker für die eigene Domain tsbw26m2.zen-tr.com (DNS und Zertifikat legt Cloudflare automatisch an)
+name = "tsbw-modul2-domain"
+main = "index.js"
+compatibility_date = "2025-09-01"
+workers_dev = false
+preview_urls = false
+routes = [{ pattern = "tsbw26m2.zen-tr.com", custom_domain = true }]
